@@ -32,6 +32,17 @@ const createStudent = async (req, res) => {
   }
 };
 
+// studentController.js
+exports.createStudent = async (req, res) => {
+    const { fullName, dob, address, branch, age } = req.body;
+    if (!fullName || !dob || !address || !branch || !age) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+    const student = await Student.create({ fullName, dob, address, branch, age });
+    res.status(201).json(student);
+  };
+  
+
 module.exports = {
   getStudents,
   createStudent
