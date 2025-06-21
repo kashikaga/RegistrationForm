@@ -12,6 +12,7 @@ const RegistrationForm = () => {
     age: ''
   });
 
+   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
 
   const calculateAge = (dob) => {
@@ -25,6 +26,46 @@ const RegistrationForm = () => {
     return age;
   };
 
+ const validate = () => {
+  const newErrors = {};
+
+  // Full name validation
+  if (!formData.fullName.trim()) {
+    newErrors.fullName = 'Full Name is required.';
+  } else if (!/^[A-Za-z ]{3,}$/.test(formData.fullName.trim())) {
+    newErrors.fullName = 'Name must be at least 3 characters and contain only alphabets.';
+  }
+
+  // DOB validation (must be in the past and student >= 18 years)
+  if (!formData.dob) {
+    newErrors.dob = 'Date of Birth is required.';
+  } else {
+    const dobDate = new Date(formData.dob);
+    const today = new Date();
+    const age = calculateAge(formData.dob);
+
+    if (dobDate >= today) {
+      newErrors.dob = 'DOB must be in the past.';
+    } else if (age < 18) {
+      newErrors.dob = 'Student must be at least 18 years old.';
+    }
+  }
+
+  // Address validation
+  if (!formData.address.trim() || formData.address.trim().length < 10) {
+    newErrors.address = 'Address must be at least 10 characters long.';
+  }
+
+  // Branch validation
+  if (!formData.branch) {
+    newErrors.branch = 'Please select a branch.';
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newFormData = { ...formData, [name]: value };
@@ -34,10 +75,13 @@ const RegistrationForm = () => {
     }
 
     setFormData(newFormData);
+    setErrors({ ...errors, [name]: '' }); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
+
     try {
       await axios.post('http://localhost:5000/api/students', formData);
       setSuccess('Student registered successfully!');
@@ -73,8 +117,11 @@ const RegistrationForm = () => {
         value={formData.dob}
         onChange={handleChange}
         required
+       
         className="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500"
+
       />
+       {errors.dob && <p className="text-red-500 text-sm mt-1">{errors.dob}</p>}
 
       <textarea
         name="address"
@@ -85,6 +132,8 @@ const RegistrationForm = () => {
         required
         className="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500"
       ></textarea>
+       {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+
 
       <select
         name="branch"
@@ -98,6 +147,7 @@ const RegistrationForm = () => {
           <option key={branch} value={branch}>{branch}</option>
         ))}
       </select>
+      {errors.branch && <p className="text-red-500 text-sm mt-1">{errors.branch}</p>}
 
       <input
         type="number"

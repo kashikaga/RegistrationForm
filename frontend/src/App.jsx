@@ -7,7 +7,6 @@ function App() {
       <div className="w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
          <h1 className="text-3xl font-bold mb-6 text-center text-purple-700 dark:text-purple-300">
           Student Registration Form 
-        
         </h1>
         <RegistrationForm />
 
