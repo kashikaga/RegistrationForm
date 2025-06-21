@@ -26,44 +26,51 @@ const RegistrationForm = () => {
     return age;
   };
 
- const validate = () => {
+const validate = () => {
   const newErrors = {};
 
-  // Full name validation
-  if (!formData.fullName.trim()) {
-    newErrors.fullName = 'Full Name is required.';
-  } else if (!/^[A-Za-z ]{3,}$/.test(formData.fullName.trim())) {
-    newErrors.fullName = 'Name must be at least 3 characters and contain only alphabets.';
+  // ✅ Full name validation (min 3 alphabetic letters)
+  const fullName = formData.fullName.trim();
+  if (!fullName) {
+    newErrors.fullName = 'Enter full name';
+  } else {
+    const letterCount = fullName.replace(/[^A-Za-z]/g, '').length;
+    if (letterCount < 3) {
+      newErrors.fullName = 'Full name must contain at least 3 letters';
+    } else if (!/^[A-Za-z ]+$/.test(fullName)) {
+      newErrors.fullName = 'Full name must contain only letters and spaces';
+    }
+    {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
   }
 
-  // DOB validation (must be in the past and student >= 18 years)
+  // ✅ DOB validation (must be past date and age ≥ 18)
   if (!formData.dob) {
-    newErrors.dob = 'Date of Birth is required.';
+    newErrors.dob = 'Date of Birth is required';
   } else {
     const dobDate = new Date(formData.dob);
     const today = new Date();
     const age = calculateAge(formData.dob);
-
     if (dobDate >= today) {
-      newErrors.dob = 'DOB must be in the past.';
+      newErrors.dob = 'DOB must be in the past';
     } else if (age < 18) {
-      newErrors.dob = 'Student must be at least 18 years old.';
+      newErrors.dob = 'Student must be at least 18 years old';
     }
   }
 
-  // Address validation
+  // ✅ Address validation
   if (!formData.address.trim() || formData.address.trim().length < 10) {
-    newErrors.address = 'Address must be at least 10 characters long.';
+    newErrors.address = 'Address must be at least 10 characters long';
   }
 
-  // Branch validation
+  // ✅ Branch validation
   if (!formData.branch) {
-    newErrors.branch = 'Please select a branch.';
+    newErrors.branch = 'Please select a branch';
   }
 
   setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
 };
+
 
 
   const handleChange = (e) => {
@@ -110,6 +117,7 @@ const RegistrationForm = () => {
         pattern="[A-Za-z ]+"
         className="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
+      {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
 
       <input
         type="date"
