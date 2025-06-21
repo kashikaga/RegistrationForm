@@ -42,7 +42,14 @@ This is a **Student Registration Form** built using **React with Tailwind CSS**.
 
 ## 📸 Screenshots
 
-*(Include screenshots here)*
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/baeedd53-b343-4578-969d-bce3288b6f67" />
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/17dc148a-16f9-4ef2-9589-29278355b48c" />
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/365a1b50-36b2-48ec-809c-0862eacd3425" />
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/a512000e-dbf6-49e8-9fcc-16e5edd9b407" />
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/0a3c0b7b-f21c-4535-b67b-fe8b434e34ae" />
+
+
+
 
 ## 📌 Technologies Used
 
@@ -50,11 +57,5 @@ This is a **Student Registration Form** built using **React with Tailwind CSS**.
 * MongoDB
 
 ---
-
-
-## Tech Stack
-
-  * ✅ Tech stack used (React with Tailwind)
-
 
 
